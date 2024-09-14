@@ -38,14 +38,14 @@
 1. 首先單針對空的 workspace 做 init。
 
    - 出現.git 檔案，裡面的 Object 資料夾內只有**info**以及**pack**
-     ![git_init](https://github.com/113257002-Peng/git-practice/blob/main/git_init.jpg?raw=true "git_init")
+     ![git_init](https://github.com/113257002-Peng/image_manage/blob/main/Week1/git_init.jpg?raw=true "git_init")
 
 2. 新增一個 test.py 檔案，並且沒有任何內容。進行**git add**
 
    - 出現一個新的 object 資料夾名稱為 e6，裡面的資料名稱為 9de29bb2d1d6434b8b29ae775ad8c2e48c5391。
    - 當我執行 **git hash-object test.py**時，出現的 hash 結果為: e69de29bb2d1d6434b8b29ae775ad8c2e48c5391。由此可知，資輛夾名稱為雜湊後前兩個字，檔案名稱也確實為剩餘的其他 hash 值。
    - 當我執行 **git cat-file -t e69de29bb2d1d6434b8b29ae775ad8c2e48c5391**時，結果出現**blob**，也就是說，檔案內即使沒有內容，也算是一種內容所以也被紀錄為一種物件。
-     ![git_add](https://github.com/113257002-Peng/git-practice/blob/main/git_add.jpg?raw=true "git_add")
+     ![git_add](https://github.com/113257002-Peng/image_manage/blob/main/Week1/git_add.jpg?raw=true "git_add")
 
 3. 再來我要測試 commit，理論上應該會出現再出現兩個物件分別代表 tree 以及 commit。
 
@@ -56,7 +56,7 @@
      - d3: git cat-file -t **d3b424d952ddeecc16c6953e0757acfa1c19a6f9** >>> **_tree_**
 
    - 如同剛開始所想，d3 記錄了檔案名稱與資料結構的訊息加上 test.py 內容所形成的 blob hash。
-     ![git_commit_info](https://github.com/113257002-Peng/git-practice/blob/main/git_commit_info.jpg?raw=true "git_commit_info")
+     ![git_commit_info](https://github.com/113257002-Peng/image_manage/blob/main/Week1/git_commit_info.jpg?raw=true "git_commit_info")
 
 4. 再來我要測試如果新增一個新的空資料夾。
 
