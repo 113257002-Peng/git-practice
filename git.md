@@ -27,7 +27,9 @@
    > 就以前面所舉的例子: 【切換 Branch 就有點像是我更改了指標，然後針對更改的指標讓其指向新的 commit。】
    > 在切換時移動的是 Head 指標，會去指向你所指定的 Branch 中最新的 commit，每當我提交或合併時，就會使 Branch 指向最新的 Commit。
 
----
+### git 的物件在實例上整個結構的簡單概念圖
+
+## ![git_object_sample](https://github.com/113257002-Peng/image_manage/blob/main/Week1/Week1.jpg?raw=true "git_object_sample")
 
 # git repo 操作過程
 
