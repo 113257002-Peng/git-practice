@@ -99,11 +99,59 @@ git branch -m old_name new_name
 
 ### 移除檔案觀察變化
 
-1. 新增一個新的檔案並且 **git add .** 之後再 **git rm -f 檔案名稱**
+- 新增一個新的檔案並且 **git add .** 之後再 **git rm -f 檔案名稱**
 
-   - 結果我發現已經新增的物件就不會刪除了。
-   - 要直到 git 認為這些是垃圾才會把這些沒用到的物件刪除，指令為:
+  - 結果我發現已經新增的物件就不會刪除了。
+  - 要直到 git 認為這些是垃圾才會把這些沒用到的物件刪除，指令為:
 
-     ```
-     git gc
-     ```
+    ```
+    git gc
+    ```
+
+# Git Commit Message 規範
+
+---
+
+目的就是為了【記錄下為何要做這些異動】以及【讓人更快速了解你所做的異動】。
+共分為 3 個部分【標題、本文、頁尾】:
+
+## 標題
+
+包含「類型」與「主旨」
+
+### 類型如下:
+
+表格出處: https://hackmd.io/@dh46tw/S1NPMsy5L
+| 類型 | 說明 |
+| ---- | ---- |
+| Feat | 新功能 |
+| Modify | 既有功能需求調整的修改 |
+|Fix|錯誤修正|
+|Docs|更新文件|
+|Style|程式碼格式調整(formatting)、缺少分號(missing semi colons)等。|
+|Refactor|重構。針對已上線的功能程式碼調整與優化，且不改變記有邏輯。|
+|Test|測試。新增測試、重構測試等|
+|Chore|更新專案建置設定、更新版本號等瑣事。|
+|Revert|撤銷之前的 commit。 revert: type(scope): subject (回覆版本：xxxx)|
+
+### 主旨如下:
+
+- 不應該超過 50 字元
+- 不須句號
+- 祈使句書寫
+
+## 本文
+
+- 為了知道你改了甚麼(What?)跟為甚麼而改(Why?)
+- 每行不超過 72 個字元
+
+## 頁尾
+
+- 通常用來標註對應的 issue 編號。
+
+---
+
+# 參考資料
+
+- Huang, D. (2023, February 1). Git Commit Message 格式與規範整理. HackMD. https://hackmd.io/@dh46tw/S1NPMsy5L
+- 經由多次與 ChatGPT 4o 的對答而得的論點與內容。
