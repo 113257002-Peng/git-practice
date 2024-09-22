@@ -16,6 +16,7 @@
 
 綜上所述，我就直接挑選主版本號為偶數的 LTS 版本就好了，如果以後有啥問題或是要配合專案開發再利用 nvm 去更改版本就好了。
 Node.js version: 20.17.0
+
 ![Node.js Version](https://github.com/113257002-Peng/image_manage/blob/main/Week2/NodeJS_Version.jpg?raw=true)
 
 # nvm(Node Version Manager)
