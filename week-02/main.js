@@ -47,3 +47,15 @@ stack.clear();
 console.log("----------After clear------------");
 console.log("stack array after clear: " + stack.print());
 console.log("The length of stack array after clear: " + stack.size());
+console.log("-----------------------------");
+
+/*-------------------*/
+//補充測試: 對一個空的array做pop
+let stack_3 = new Stack();
+console.log("提取前的array: " + stack.print());
+console.log("提取前array的長度: " + stack.size());
+console.log("---------提取後----------");
+console.log("提取的element: " + stack.pop());
+console.log("提取後的array: " + stack.print());
+console.log("提取後array的長度: " + stack.size());
+console.log("-----------------------------");

@@ -1,8 +1,10 @@
 # 筆記
 
-> 寫作業的過程當中學到了許多東西，但很不方便儲存筆記。因此創建此 md 來做為此次作業的額外筆記。
+**寫作業的過程當中學到了許多東西，但很不方便儲存筆記。因此創建此 md 來做為此次作業的額外筆記。**
 
 ---
+
+## Week2
 
 ### class 類別概念
 
@@ -90,3 +92,74 @@
 
 > const stack = new Stack();
 > console.log(stack.#items); // 這會報錯，因為 #items 是私有屬性
+
+---
+
+## Week3
+
+### 環境變數
+
+- 環境變數基本上是指在某個環境中，所有程式都能讀取的變數。
+
+- 常聽到的系統環境變數是指在整個作業系統中自動可用的變數。例如，如果將 Python 的路徑設定到系統環境變數中，那麼在命令提示字元（cmd）中就能直接使用 python 指令，因為系統可以識別這個指令。
+
+- 環境變數不僅存在於系統層級，在許多專案開發過程中，也需要設定專案層級的環境變數，以避免機密資訊的外洩並增強程式的彈性。例如，如果將端口號直接寫死在程式碼中，會使其缺乏靈活性。因此，通常會使用環境變數來解決這個問題，使得端口號可以根據不同的環境進行調整，而不需要改動程式碼。
+
+### 如何為專案設置環境變數
+
+#### 步驟 1: 安裝 `dotenv` 套件
+
+1. 在終端機中進入您的專案資料夾（例如 `./backend`）。
+2. 執行以下命令來安裝 `dotenv` 套件：
+   ```bash
+   npm install dotenv
+   ```
+
+#### 步驟 2: 創建 `.env` 檔案
+
+1. 在專案的根目錄或 `./backend` 資料夾中創建一個名為 `.env` 的檔案。
+2. 在 `.env` 檔案中添加您的環境變數。例如，設定端口號：
+   ```plaintext
+   PORT=3000
+   DB_PASSWORD=mysecretpassword
+   API_KEY=yourapikey
+   ```
+
+#### 步驟 3: 修改程式碼以載入環境變數
+
+1. 在您的主程式檔案（例如 `app.js` 或 `index.js`）中，載入 `dotenv` 套件並設置環境變數。代碼示例如下：
+
+   ```javascript
+   require("dotenv").config(); // 載入 dotenv 套件
+
+   const express = require("express");
+   const app = express();
+   const port = process.env.PORT || 3000; // 使用環境變數，如果沒有則使用預設值 3000
+
+   app.get("/", (req, res) => {
+     res.send("Hello World!");
+   });
+
+   app.listen(port, () => {
+     console.log(`Server is listening on port ${port}`);
+   });
+   ```
+
+#### 步驟 4: 添加 `.env` 到 `.gitignore`
+
+1. 在專案根目錄或 `./backend` 資料夾中，創建或編輯 `.gitignore` 檔案，並添加以下行來忽略 `.env` 檔案：
+   ```plaintext
+   .env
+   ```
+
+#### 步驟 5: 測試環境變數
+
+1. 啟動您的應用程式，並檢查是否正確使用了環境變數：
+   ```bash
+   node app.js
+   ```
+2. 在瀏覽器中訪問 `http://localhost:3000/`，確認應用程式正常運行。
+
+#### 總結
+
+透過以上步驟，您可以輕鬆地在專案中設定和管理環境變數，這樣不僅提升了靈活性，也確保了敏感資訊的安全性。
