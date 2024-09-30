@@ -1,3 +1,10 @@
+- [x] AWS 帳號註冊
+- [x] dependencies 與 devDependencies
+- [x] package.json 中的 scripts
+- [x] Port number 要怎麼以環境變數來設定？
+- [x] 檔案的上傳與不上傳考量因素
+- [x] CJS vs ESM
+
 # dependencies 與 devDependencies
 
 在使用 npm 時，dependencies 和 devDependencies 之間的區別主要體現在**安裝命令和使用場景**上。

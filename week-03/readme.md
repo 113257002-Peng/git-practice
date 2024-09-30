@@ -1,3 +1,7 @@
+- [x] AWS Region & Available Zone
+- [x] callback.js
+- [x] 選出組長
+
 # AWS region 與 Available Zone
 
 AWS 的整體雲端系統基本上主要核心就是由 Region 以及 Available Zon 所建構。

@@ -163,3 +163,57 @@
 #### 總結
 
 透過以上步驟，您可以輕鬆地在專案中設定和管理環境變數，這樣不僅提升了靈活性，也確保了敏感資訊的安全性。
+
+---
+
+## 如何把 master 分支改成 main 分支
+
+要將 GitHub 儲存庫的 `master` 分支名稱改為 `main`，可以按照以下步驟進行操作：
+
+### 步驟 1: 本地重命名分支
+
+1. 首先，進入您的專案資料夾：
+
+   ```bash
+   cd /path/to/your/repo
+   ```
+
+2. 確保您在 `master` 分支上，然後執行以下命令來重命名本地分支：
+
+   ```bash
+   git branch -m master main
+   ```
+
+### 步驟 2: 推送重命名的分支到 GitHub
+
+1. 將重命名的 `main` 分支推送到 GitHub：
+
+   ```bash
+   git push -u origin main
+   ```
+
+2. 此命令會將新的 `main` 分支推送到 GitHub，並且使用 `-u` 參數設置 `main` 分支為跟蹤遠端分支。
+
+### 步驟 3: 在 GitHub 上設置默認分支
+
+1. 登錄到 GitHub 並進入您的儲存庫頁面。
+2. 點擊「Settings」選項卡。
+3. 在左側菜單中選擇「Branches」。
+4. 在「Default branch」部分，選擇 `main` 作為新的默認分支。
+5. 確認更改。
+
+### 步驟 4: 刪除舊的 `master` 分支（可選）
+
+如果您確認不再需要 `master` 分支，可以將其刪除：
+
+1. 在 GitHub 上，您可以通過以下命令刪除 `master` 分支：
+
+   ```bash
+   git push origin --delete master
+   ```
+
+2. 此命令將會從遠端刪除 `master` 分支。
+
+### 總結
+
+通過以上步驟，您可以將 GitHub 儲存庫的 `master` 分支名稱更改為 `main`。這樣做可以提高代碼的可讀性，並與現代開發實踐保持一致。
