@@ -217,3 +217,71 @@
 ### 總結
 
 通過以上步驟，您可以將 GitHub 儲存庫的 `master` 分支名稱更改為 `main`。這樣做可以提高代碼的可讀性，並與現代開發實踐保持一致。
+
+---
+
+# Week5
+
+## 購買網域
+
+1. 我在 godaddy.com 購買了我的第一個網域。
+   叫做 weicyun.com 花了 399 元。
+
+## 設定 DNS A Record
+
+1. 先去找 EC2 的 public IP，以我為例: 54.248.207.103
+2. 到購買網域的平台，針對所購買的網域點進 DNS 介面。
+3. 設定 A record，這是專門來映射 DNS 到指定網域的一個 type。
+4. 通常就可以成功以: http://www.weicyun.com 進入 EC2 的前端(因為我已經綁定 Nginx 來反向代理我的 Express，我的 Express 內容只有"Hello world")
+
+---
+
+# Domain Name vs FQDN vs URL 這三者分別為何？
+
+這三者雖然看起來類似，但它們在網路結構中的角色和用途有所不同，讓我們來逐一說明 **Domain Name（網域名稱）**、**FQDN（全域名稱，Fully Qualified Domain Name）** 和 **URL（統一資源定位符，Uniform Resource Locator）** 之間的區別。
+
+### 1. **Domain Name（網域名稱）**
+
+網域名稱是識別網路資源的易記名稱，主要用來代表一個 **IP 位址**。它是由一系列的標籤組成，這些標籤由點（`.`）分隔。網域名稱通常分為幾個層級：
+
+- **頂級域名（TLD）**：如 `.com`、`.net`、`.org`。
+- **二級域名**：如 `example`，完整的二級域名加頂級域名就會像 `example.com`。
+- **子域名**：如 `www`，加上主域名可以是 `www.example.com`。
+
+#### 範例：
+
+- `example.com` 是一個網域名稱。
+- `www.example.com` 包含一個子域名 `www`。
+
+### 2. **FQDN（全域名稱，Fully Qualified Domain Name）**
+
+FQDN 是一個完全指定的網域名稱，它精確地指出一個網路上的具體位置。與普通的網域名稱不同，FQDN 必須包含 **完整的路徑**，包括所有的層級，並以一個根域名結束（通常用一個點 `.` 表示）。
+
+#### 範例：
+
+- `www.example.com.` 就是一個 FQDN。最後的點 `.` 表示根域（根名稱伺服器）。
+- 與之對比，`example.com` 是一個網域名稱，但不是 FQDN，因為它沒有明確指出到達根的完整結構。
+
+FQDN 用於唯一識別一個主機在網路中的位置，通常在 DNS 中使用來查詢完整的解析路徑。
+
+### 3. **URL（統一資源定位符，Uniform Resource Locator）**
+
+URL 是一個用來描述互聯網資源的完整地址，包含了：
+
+- **協議（Protocol）**：例如 `http` 或 `https`。
+- **網域名稱或 IP 位址**：如 `example.com`。
+- **資源路徑**：如 `/about.html`。
+- **可能的埠號、查詢參數或片段標識符**。
+
+URL 不僅僅是網域名稱，它還指明了如何存取某個資源（例如使用 HTTP 協議），並且包含了該資源的具體路徑。
+
+#### 範例：
+
+- `https://www.example.com/about.html?lang=zh` 是一個 URL，包含協議、域名、路徑和查詢參數。
+- URL 指明了具體的文件或頁面位置，以及應該用哪種協議來存取它。
+
+### 總結：
+
+- **Domain Name（網域名稱）**：是一個易於記憶的名稱，用來代表一個網站或服務的 IP 位址（如 `example.com`）。
+- **FQDN（全域名稱）**：是指明完整路徑的域名，包含網域名稱的所有層級，並以根結尾（如 `www.example.com.`）。
+- **URL（統一資源定位符）**：是用來指定網路資源的完整地址，包含協議、網域名稱和資源的具體路徑（如 `https://www.example.com/about.html`）。

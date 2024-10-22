@@ -1,7 +1,7 @@
 # 任務內容
 
 - [x] 建立 EC2 主機與部署 Web Server
-- [ ] Linux 的基本指令操作練習(存到 linux.md)
+- [x] Linux 的基本指令操作練習(存到 linux.md)
 - [x] 回答所有問題
 
 ---
