@@ -234,7 +234,141 @@
 3. 設定 A record，這是專門來映射 DNS 到指定網域的一個 type。
 4. 通常就可以成功以: http://www.weicyun.com 進入 EC2 的前端(因為我已經綁定 Nginx 來反向代理我的 Express，我的 Express 內容只有"Hello world")
 
+## 申請 SSH 憑證
+
+1. 訪問 ZeroSSL 並註冊帳戶：
+   前往 ZeroSSL，並註冊一個帳戶。
+
+2. 創建新的 SSL 憑證：
+   登入 ZeroSSL，點擊「New Certificate」來創建一個新的 SSL 憑證。
+   輸入你的網域名稱，例如 **www.weicyun.com**（你可以只選擇這個域名，避免多域名憑證，這樣可以免費使用）。
+
+3. 選擇驗證方式：
+   在憑證創建過程中，選擇 90 天免費憑證。
+   然後進行 域名所有權驗證，ZeroSSL 提供三種驗證方式：
+
+   - Email 驗證：如果你的域名有管理郵箱，可以選擇這個方式（如 admin@weicyun.com）。
+   - DNS 驗證：添加一個 CNAME 或 TXT 記錄到 DNS 設定中，這是最常用的方式，且不需要管理郵箱。
+   - HTTP 文件驗證：上傳一個指定的文件到你的 EC2 instance 的 Web 伺服器。
+     建議使用 DNS 驗證，這是最簡單的方式。
+
+4. 完成驗證：
+
+完成驗證後，ZeroSSL 會生成一個憑證，包含以下幾個文件：
+
+1. certificate.crt：證書檔案。
+2. private.key：私鑰檔案。
+3. CA 中繼憑證（intermediate.crt）：CA 憑證（如有）。
+
+下載這些憑證文件，因為稍後需要將它們安裝到 Nginx 上。
+
+- 上傳到 EC2 的方法:
+
+  > 我的 pem: "D:\NCCU\my-ec2-keypair.pem"
+  > 我的憑證:
+  > "D:\NCCU\weicyun.com\ca_bundle.crt"
+  > "D:\NCCU\weicyun.com\certificate.crt"
+  > "D:\NCCU\weicyun.com\private.key"
+  > 請問我要怎麼做?
+
+  - 利用 scp 在本地端上傳憑證(我用 wsl)
+
+    - 可以先用普通 ssh 連線
+
+      ```
+      ssh -i ~/my-ec2-keypair.pem ubuntu@54.248.207.103
+      ```
+
+      ```
+      scp -i ~/my-ec2-keypair.pem /mnt/d/NCCU/weicyun.com/ca_bundle.crt ubuntu@54.248.207.103:/home/ubuntu/
+      scp -i ~/my-ec2-keypair.pem /mnt/d/NCCU/weicyun.com/certificate.crt ubuntu@54.248.207.103:/home/ubuntu/
+      scp -i ~/my-ec2-keypair.pem /mnt/d/NCCU/weicyun.com/private.key ubuntu@54.248.207.103:/home/ubuntu/
+
+      ```
+
+## 安裝 SSL 憑證至 AWS EC2 的 Nginx
+
+1. **登入 AWS EC2**：
+
+   - 使用 SSH 連接到你的 AWS EC2 instance：
+     ```bash
+     ssh -i "your-key.pem" ubuntu@your-ec2-ip
+     ```
+
+2. **創建目錄來儲存 SSL 憑證**：
+
+   - 創建一個目錄來儲存你的 SSL 憑證和私鑰：
+     ```bash
+     sudo mkdir -p /etc/nginx/ssl
+     ```
+
+3. **上傳憑證和私鑰(看上面的操作說明)**：
+
+   - 使用 `scp` 或其他方式將你下載的 **certificate.crt**、**private.key** 和 **intermediate.crt**（如有）上傳到 EC2 的 `/etc/nginx/ssl` 目錄中。
+
+4. **配置 Nginx 使用 SSL**：
+
+   - 打開並編輯 Nginx 的配置檔案（通常是 `/etc/nginx/sites-available/default`）：
+
+     ```bash
+     sudo nano /etc/nginx/sites-available/default
+     ```
+
+   - 修改或添加如下的 server 區塊來啟用 SSL 支援：
+
+     ```nginx
+     server {
+         listen 443 ssl;
+         server_name www.weicyun.com;
+
+         ssl_certificate /etc/nginx/ssl/certificate.crt;
+         ssl_certificate_key /etc/nginx/ssl/private.key;
+         ssl_trusted_certificate /etc/nginx/ssl/intermediate.crt;  # 如果有 CA 中繼憑證
+
+         location / {
+             proxy_pass http://localhost:80;
+         }
+     }
+     ```
+
+   - 同時，在 `listen 80` 的區塊中添加重定向，將所有 HTTP 流量重定向到 HTTPS：
+
+     ```nginx
+     server {
+         listen 80;
+         server_name www.weicyun.com;
+
+         return 301 https://$host$request_uri;
+     }
+     ```
+
+5. **測試並重啟 Nginx**：
+
+   - 測試 Nginx 配置是否正確：
+
+     ```bash
+     sudo nginx -t
+     ```
+
+   - 如果配置正確，重啟 Nginx 服務：
+     `bash
+sudo systemctl restart nginx
+`
+
+**這樣就會配置好了!**
+
 ---
+
+### 最後步驟：
+
+1. **訪問你的網站**：
+
+   - 打開瀏覽器並輸入 **https://www.weicyun.com**，確認憑證已經正確安裝，並且你的網站可以通過 HTTPS 訪問。
+
+2. **驗證 SSL 安裝是否成功**：
+   - 你可以使用瀏覽器的「開發者工具」檢查 SSL 憑證，或者通過線上的工具如 [SSL Labs](https://www.ssllabs.com/ssltest/) 來檢查你的 SSL 憑證是否正確安裝。
+
+## 這樣你就完成了手動申請 SSL 憑證並將其安裝到 Nginx 的所有步驟。如果過程中遇到任何問題，請隨時告訴我！
 
 # Domain Name vs FQDN vs URL 這三者分別為何？
 
